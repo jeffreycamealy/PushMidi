@@ -2,7 +2,7 @@
 #include "Arduino.h"
 #include "PressurePad.h"
 
-const bool ProductionBuild = 0;
+const bool ProductionBuild = 1;
 
 const int StagRange = 20;
 const int MaxStags = 500;

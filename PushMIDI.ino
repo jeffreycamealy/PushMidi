@@ -4,7 +4,7 @@
 
 // - Build Mode
 
-const bool ProductionBuild = 0;
+const bool ProductionBuild = 1;
 
 
 // - PadObjects
@@ -28,7 +28,7 @@ void setup() {
 void loop() {
 //  digPad1.updateNote();
 //  pad1.updateNote();
-  pad2.updateNote();
+  pad2.updateNoteWithVelocity(80);
 }
 
 
