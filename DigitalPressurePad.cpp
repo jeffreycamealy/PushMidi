@@ -6,5 +6,5 @@ int DigitalPressurePad::padRead() {
 	const float PadMax = 1023.0;
 	float padValueNormalized = padValue / PadMax;
 	float padValueMIDIVelocity = padValueNormalized*127.0;
-	return 127;
+	return 88;
 }
