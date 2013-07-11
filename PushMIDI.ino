@@ -5,14 +5,13 @@
 
 // - Build Mode
 
-const bool ProductionBuild = 0;
+const bool ProductionBuild = 1;
 
 
 // - PadObjects
 
 PressurePad pad1(0, 52);
 PressurePad pad2(1, 53);
-
 
 
 // - Arduino Delegate Methods
@@ -27,7 +26,7 @@ void setup() {
 
 void loop() {
   pad1.updateNote();
-  pad2.updateNote();
+//  pad2.updateNote();
 }
 
 
