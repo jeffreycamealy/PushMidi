@@ -7,9 +7,11 @@ class PressurePad {
   public:
     PressurePad(int pin, int note);
     void updateNote();
+    void updateNoteWithVelocity(int velocity);
 
-  private:
+  protected:
 	int padRead();
+	void updateNoteWithLocalVelocity();
 	void end();
 	void succeedAndPlay();
 	void play();

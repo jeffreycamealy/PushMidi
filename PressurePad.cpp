@@ -2,7 +2,7 @@
 #include "Arduino.h"
 #include "PressurePad.h"
 
-const bool ProductionBuild = 1;
+const bool ProductionBuild = 0;
 
 const int StagRange = 20;
 const int MaxStags = 500;
@@ -18,43 +18,48 @@ PressurePad::PressurePad(int aPin, int aNote) {
 }
 
 void PressurePad::updateNote() {
-  int padVal = padRead();
-  
+  velocity = padRead();
+  updateNoteWithLocalVelocity();
+}
+
+void PressurePad::updateNoteWithVelocity(int aVelocity) {
+  velocity = aVelocity;
+  updateNoteWithLocalVelocity();
+}
+
+void PressurePad::updateNoteWithLocalVelocity() {
   // End Note
   if (playing) {
-    if (padVal < MinVelocity-NoteIsStoppingThreshold) {
+    if (velocity < MinVelocity-NoteIsStoppingThreshold) {
       end();
     }
     return;
   }
   
   // Strike Note
-  if (prevVal > padVal) {
-    velocity = padVal;
+  if (prevVal > velocity) {
     succeedAndPlay();
     return;
   }
   
   // No Action
-  if (padVal < MinVelocity) { 
+  if (velocity < MinVelocity) { 
     return;
   }
   
   // Strike is Stagnating
-  int diff = abs(padVal-prevVal);
+  int diff = abs(velocity-prevVal);
   if (diff < StagRange) {
     stags++;
     if (stags > MaxStags) {
-      velocity = padVal;
       succeedAndPlay();
       return;
     }
   }
   
   // Update State
-  prevVal = padVal;
+  prevVal = velocity;
 }
-
 
 int PressurePad::padRead() {
   int padValue = analogRead(pin);
