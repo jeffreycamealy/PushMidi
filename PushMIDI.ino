@@ -26,7 +26,7 @@
 /// Build Mode
 //
 
-const bool ProductionBuild = 1;
+const bool ProductionBuild = 0;
  
  
 //
@@ -41,7 +41,7 @@ const int f_sharp_0 = 0x1E;
 const int f_sharp_5 = 0x5A;
 const int e3 = 40;
 
-const String padPin = "A0";
+const int padPin = 1;
 
 const int MinVelocity = 30;
 
@@ -54,16 +54,18 @@ const int MinVelocity = 30;
 //
 
 void setup() {
-//  if (ProductionBuild) {
+  if (ProductionBuild) {
     setMIDIBaudRate();
-//  } else {
-//    setMonitorBaudRate();
-//  }
+  } else {
+    setMonitorBaudRate();
+  }
 }
 
 void loop() {
-  updateNote(52);
+  updateNoteForPin(52, 0);
+  updateNoteForPin(53, 1);
 }
+
 
 
 //
@@ -78,39 +80,6 @@ void setMonitorBaudRate () {
   Serial.begin(9600);
 }
 
-void playNote(int pitch) {
-  playNoteWithVelocity(pitch, mediumVelocity);
-}
-
-void endNote(int pitch) {
-  playNoteWithVelocity(pitch, silentVelocity);
-}
-
-//  plays a MIDI note.  Doesn't check to see that
-//  cmd is greater than 127, or that data values are  less than 127:
-void playNoteWithVelocity(int pitch, int velocity) {
-//  if (ProductionBuild) {
-    Serial.write(channel1);
-    Serial.write(pitch);
-    Serial.write(velocity);
-//  } else {
-//    Serial.println("note: ");
-//    Serial.println(channel1);
-//    Serial.println(pitch);
-//    Serial.println(velocity);
-//    Serial.println(" ");
-//  }
-}
-
-int padRead() {
-  int padValue = analogRead(A0);
-  const float PadMax = 1023.0;
-  float padValueNormalized = padValue / PadMax;
-  float padValueMIDIVelocity = padValueNormalized*127.0;
-  return (int)padValueMIDIVelocity;
-}
-
-
 //
 /// Global Mutable Variables
 //
@@ -122,8 +91,8 @@ bool playing = 0;
 const int stagRange = 20;
 const int maxStags = 500;
 
-void updateNote(int note) {
-  int padVal = padRead();
+void updateNoteForPin(int note, int pin) {
+  int padVal = padReadOnPin(pin);
   
   // End Note
   if (playing) {
@@ -158,6 +127,44 @@ void updateNote(int note) {
   // Update State
   prevVal = padVal;
 }
+
+
+int padReadOnPin(int pin) {
+  int padValue = analogRead(pin);
+  const float PadMax = 1023.0;
+  float padValueNormalized = padValue / PadMax;
+  float padValueMIDIVelocity = padValueNormalized*127.0;
+  return (int)padValueMIDIVelocity;
+}
+
+
+void playNote(int pitch) {
+  playNoteWithVelocity(pitch, mediumVelocity);
+}
+
+void endNote(int pitch) {
+  playNoteWithVelocity(pitch, silentVelocity);
+}
+
+//  plays a MIDI note.  Doesn't check to see that
+//  cmd is greater than 127, or that data values are  less than 127:
+void playNoteWithVelocity(int pitch, int velocity) {
+  if (ProductionBuild) {
+    Serial.write(channel1);
+    Serial.write(pitch);
+    Serial.write(velocity);
+  } else { // DebugBuild
+    Serial.println("note: ");
+    Serial.println(channel1);
+    Serial.println(pitch);
+    Serial.println(velocity);
+    Serial.println(" ");
+  }
+}
+
+
+
+
 
 void succeedAndPlayNoteWithVelocity (int note, int velocity) {
   prevVal = 0;
