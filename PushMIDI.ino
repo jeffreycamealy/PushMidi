@@ -4,7 +4,7 @@
 
 // - Build Mode
 
-const bool ProductionBuild = 0;
+const bool ProductionBuild = 1;
 
 
 // - PadObjects
@@ -44,36 +44,13 @@ void loop() {
 // - Helper Methods
 
 void setMIDIBaudRate () {
-  Serial.begin(31250);
+  Serial1.begin(31250);
 }
 
 void setMonitorBaudRate () {
   Serial.begin(9600);
 }
 
-
-// - RCTime Methods
-
-long RCtime(int sensPin){
-   long result = 0;
-   pinMode(sensPin, OUTPUT);       // make pin OUTPUT
-   digitalWrite(sensPin, HIGH);    // make pin HIGH to discharge capacitor - study the schematic
-   delay(1);                       // wait a  ms to make sure cap is discharged
-
-   pinMode(sensPin, INPUT);        // turn pin into an input and time till pin goes low
-   digitalWrite(sensPin, LOW);     // turn pullups off - or it won't work
-   while(digitalRead(sensPin)){    // wait for pin to go low
-      result++;
-   }
-
-   return result;                   // report results   
-}
-
-int RCtimeNormalize(long rcTime) {
-  int normalizedTime = min(rcTime, top);
-  int invertedTime = top - normalizedTime;
-  return invertedTime;
-}
 
 
 

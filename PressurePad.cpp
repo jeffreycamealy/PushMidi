@@ -2,7 +2,7 @@
 #include "Arduino.h"
 #include "PressurePad.h"
 
-const bool ProductionBuild = 0;
+const bool ProductionBuild = 1;
 
 const int StagRange = 20;
 const int MaxStags = 500;
@@ -86,9 +86,9 @@ void PressurePad::succeedAndPlay() {
 //  cmd is greater than 127, or that data values are  less than 127:
 void PressurePad::play() {
   if (ProductionBuild) {
-    Serial.write(channel1);
-    Serial.write(note);
-    Serial.write(velocity);
+    Serial1.write(channel1);
+    Serial1.write(note);
+    Serial1.write(velocity);
   } else { // DebugBuild
     Serial.println("note: ");
     Serial.println(channel1);
