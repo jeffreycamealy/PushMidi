@@ -4,7 +4,7 @@
 
 // - Build Mode
 
-const bool ProductionBuild = 1;
+const bool ProductionBuild = 0;
 
 
 // - PadObjects
@@ -12,6 +12,7 @@ const bool ProductionBuild = 1;
 PressurePad pad1(0, 52);
 PressurePad pad2(1, 53);
 PressurePad pad3(2, 54);
+PressurePad pad4(3, 55);
 
 //DigitalPressurePad digPad1(0, 52);
 
@@ -31,9 +32,12 @@ const int top = 127;
 void loop() {
 //  digPad1.updateNote();
   pad1.updateNote();
+//  pad2.updateNote();
+//  pad3.updateNote();
+//  pad4.updateNote();
 //  pad2.updateNoteWithVelocity(80);
-  pad2.updateNoteWithVelocity(RCtimeNormalize(RCtime(9)));
-  pad3.updateNoteWithVelocity(RCtimeNormalize(RCtime(8)));
+//  pad2.updateNoteWithVelocity(RCtimeNormalize(RCtime(9)));
+//  pad3.updateNoteWithVelocity(RCtimeNormalize(RCtime(8)));
 }
 
 
