@@ -9,12 +9,14 @@ class PressurePad {
     void updateNote();
     void updateNoteWithVelocity(int velocity);
 
-  protected:
+  private:
 	int padRead();
 	void updateNoteWithLocalVelocity();
 	void end();
 	void succeedAndPlay();
 	void play();
+        void writeToMidi();
+        void logNote();
 
     int pin;
     int note;

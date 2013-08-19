@@ -2,7 +2,9 @@
 #include "Arduino.h"
 #include "PressurePad.h"
 
-const bool ProductionBuild = 1;
+// - Global Variables
+
+const bool ProductionBuild = 0;
 
 const int StagRange = 20;
 const int MaxStags = 500;
@@ -12,10 +14,15 @@ const int SilentVelocity = 0;
 const int channel1 = 0x90;
 
 
+// - Initializer
+
 PressurePad::PressurePad(int aPin, int aNote) {
 	pin = aPin;
 	note = aNote;
 }
+
+
+// - Public API
 
 void PressurePad::updateNote() {
   velocity = padRead();
@@ -26,6 +33,9 @@ void PressurePad::updateNoteWithVelocity(int aVelocity) {
   velocity = aVelocity;
   updateNoteWithLocalVelocity();
 }
+
+
+// - Private API
 
 void PressurePad::updateNoteWithLocalVelocity() {
   // End Note
@@ -82,22 +92,28 @@ void PressurePad::succeedAndPlay() {
   play();
 }
 
+
+void PressurePad::play() {
+  writeToMidi();
+  if (!ProductionBuild) logNote();
+}
+
 //  plays a MIDI note.  Doesn't check to see that
 //  cmd is greater than 127, or that data values are  less than 127:
-void PressurePad::play() {
-  if (ProductionBuild) {
+void PressurePad::writeToMidi() {
     Serial1.write(channel1);
     Serial1.write(note);
     Serial1.write(velocity);
-  } else { // DebugBuild
+}
+
+void PressurePad::logNote() {
     Serial.println("note: ");
     Serial.println(channel1);
     Serial.println(note);
     Serial.println(velocity);
     Serial.println(" ");
-  }
 }
-
+  
 
 
 
