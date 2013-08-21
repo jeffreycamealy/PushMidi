@@ -107,10 +107,17 @@ void PressurePad::writeToMidi() {
 }
 
 void PressurePad::logNote() {
-    Serial.println("note: ");
-    Serial.println(channel1);
+  if (velocity > 0) {
+    Serial.print("================= hitNum: ");
+    Serial.println(hitNum++);
+  }
+  
+    Serial.print("note: ");
     Serial.println(note);
+    
+    Serial.print("velocity: ");
     Serial.println(velocity);
+    
     Serial.println(" ");
 }
   

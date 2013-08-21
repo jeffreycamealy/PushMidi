@@ -24,6 +24,7 @@ class PressurePad {
     int prevVal;
     int stags;
     bool playing;
+    int hitNum; // Used for debugging
 };
 
 #endif

@@ -9,10 +9,13 @@ const bool ProductionBuild = 0;
 
 // - PadObjects
 
-PressurePad pad1(0, 52);
-PressurePad pad2(1, 53);
-PressurePad pad3(2, 54);
-PressurePad pad4(3, 55);
+PressurePad pad0(15, 72); // C5
+PressurePad pad1(0, 76); // E5
+
+//PressurePad pad0(0, 52); // E3
+//PressurePad pad1(1, 53); // F3
+//PressurePad pad2(2, 54); // F#3
+//PressurePad pad3(3, 55); // G3
 
 
 // - Arduino Delegate Methods
@@ -25,6 +28,7 @@ void setup() {
 const int top = 127;
 
 void loop() {
+  pad0.updateNote();
   pad1.updateNote();
 }
 
